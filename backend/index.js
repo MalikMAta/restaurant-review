@@ -1,6 +1,7 @@
 import app from "./server.js"
 import mongodb from "mongodb"
 import dotenv from "dotenv"
+import restaurantsDOA from './doa/restaurants.DOA.js'
 
 dotenv.config()
 
