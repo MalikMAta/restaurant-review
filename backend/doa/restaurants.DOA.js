@@ -22,7 +22,7 @@ static async getRestaurants({
 } ={}) {
     let query
     if(filters){
-        if("name" in filters) {
+                if("name" in filters) {
             query = {$text: {$search: filters["name"] } }
         } else if ("cuisine" in filters){
             query = {"cuisine": {$eq: filters["cuisine"] } }
@@ -43,14 +43,15 @@ static async getRestaurants({
 
         const displayCursor = cursor.limit(restaurantsPerPage).skip(restaurantsPerPage * page)
         try{
-            const restaurants = await displayCursor.toArray()
-            const totalNumRestaurants = await restaurants.counDocuments(query)
+            const restaurantsList = await displayCursor.toArray()
+            const totalNumRestaurants = await restaurants.countDocuments(query)
 
-            return{restaurantsList, totalNumRestaurantst}
+            return{restaurantsList, totalNumRestaurants}
         }catch(e) {
             console.error(
-                `Unable to convert curso to array or problem counting documents , $`
+                `Unable to convert curso to array or problem counting documents , ${e}`
             )
+            return {restaurantsList: [], totalNumRestaurants: 0}
         }
 
 }
